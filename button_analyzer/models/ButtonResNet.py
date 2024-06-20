@@ -3,12 +3,12 @@ from torchvision import models
 from torch.nn.modules.module import T
 import torch
 import torch.optim as optim
-from possible_values.Colors import LabelsColors
-from possible_values.FontFamilies import LabelsFontFamilies
-from possible_values.FontStyles import LabelsFontStyles
-from possible_values.TextAligns import LabelsTextAligns
-from possible_values.TextTransforms import LabelsTextTransforms
-from possible_values.BorderStyles import LabelsBorderStyles
+from possible_values.Colors import LabelsColors, Colors
+from possible_values.FontFamilies import LabelsFontFamilies, FontFamilies
+from possible_values.FontStyles import LabelsFontStyles, FontStyles
+from possible_values.TextAligns import LabelsTextAligns, TextAligns
+from possible_values.TextTransforms import LabelsTextTransforms, TextTransforms
+from possible_values.BorderStyles import LabelsBorderStyles, BorderStyles
 import copy
 from tqdm import tqdm
 
@@ -204,12 +204,12 @@ class ButtonResNet(nn.Module):
         _, l_border_style_preds = torch.max(l_border_style_outputs, 1)
 
         return {
-            'color': l_color_preds.item(),
-            'font-family': l_f_family_preds.item(),
-            'font-style': l_f_style_preds.item(),
-            'text-align': l_t_align_preds.item(),
-            'text-transform': l_t_transform_preds.item(),
-            'background-color': l_background_color_preds.item(),
-            'border-color': l_border_color_preds.item(),
-            'border-style': l_border_style_preds.item()
+            'color': Colors[LabelsColors(l_color_preds.item()).name].value,
+            'font-family': FontFamilies[LabelsFontFamilies(l_f_family_preds.item()).name].value,
+            'font-style': FontStyles[LabelsFontStyles(l_f_style_preds.item()).name].value,
+            'text-align': TextAligns[LabelsTextAligns(l_t_align_preds.item()).name].value,
+            'text-transform': TextTransforms[LabelsTextTransforms(l_t_transform_preds.item()).name].value,
+            'background-color': Colors[LabelsColors(l_background_color_preds.item()).name].value,
+            'border-color': Colors[LabelsColors(l_border_color_preds.item()).name].value,
+            'border-style': BorderStyles[LabelsBorderStyles(l_border_style_preds.item()).name].value
         }
